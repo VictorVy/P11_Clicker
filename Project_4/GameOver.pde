@@ -2,3 +2,8 @@ void gameOver()
 {
   
 }
+
+void gameOverMR()
+{
+  
+}

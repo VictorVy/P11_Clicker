@@ -2,3 +2,8 @@ void pause()
 {
   
 }
+
+void pauseMR()
+{
+  
+}
