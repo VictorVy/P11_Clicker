@@ -1,3 +1,14 @@
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+import ddf.minim.effects.*;
+import ddf.minim.signals.*;
+import ddf.minim.spi.*;
+import ddf.minim.ugens.*;
+
+Minim minim;
+AudioPlayer bite;
+
+//variables
 int mode;
 
 final int intro = 0;
@@ -26,13 +37,17 @@ int barWidth;
 int barHeight;
 float barOffset;
 
-PVector velocity;
+float speed;
+PVector direction;
 
 void setup()
 {
   size(800, 600);
   frameRate(60);
   
+  minim = new Minim(this);
+  
+  //variables
   mode = intro;
   
   introBG = 225;
@@ -48,14 +63,17 @@ void setup()
   
   hp = 100;
   hpDecrement = 1;
-  hpIncrement = 2;
+  hpIncrement = 10;
   hpTracker = hp;
   
   barWidth = width;
   barHeight = 35;
   barPos = new PVector(0, height - barHeight);
   
-  velocity = new PVector();
+  speed = 2;
+  //direction = new PVector(0, 1);
+  //direction.setMag(5);
+  //direction.rotate(random(0, TWO_PI));
 }
 
 void draw()

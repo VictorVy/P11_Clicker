@@ -3,7 +3,10 @@ void game()
   background(gameBG);
   image(cookie, cookiePos.x, cookiePos.y, cookieSize, cookieSize);
   
+  move();
+  
   bar();
+  timer();
   
   if(frameCount % 5 == 0)
   {
@@ -26,6 +29,32 @@ void gameMR()
   }
 }
 
+void move()
+{
+  //if(direction.x <= 0)
+  //  cookiePos.x -= speed;
+  //else if(direction.x > 0)
+  //  cookiePos.x += speed;
+  //if(direction.y <= 0)
+  //  cookiePos.y -= speed;
+  //else if(direction.y > 0)
+  //  cookiePos.y += speed;
+
+
+
+  //cookiePos.add(direction);
+  
+  
+  if(cookiePos.x + cookieSize == width || cookiePos.x + cookieSize >= width)
+    direction.x = 0;
+  else if(cookiePos.x - cookieSize == 0 || cookiePos.x - cookieSize <= 0)
+    direction.x = 1;
+  if(cookiePos.y + cookieSize == barPos.x || cookiePos.y + cookieSize >= barPos.x)
+    direction.y = 0;
+  else if(cookiePos.y - cookieSize == 0 || cookiePos.y - cookieSize <= 0)
+    direction.y = 1;
+}
+
 void bar()
 {
   barOffset = map(hp, 100, 0, 0, barWidth);
@@ -41,4 +70,12 @@ void bar()
   stroke(#5D4521);
   strokeWeight(4);
   line(barPos.x, barPos.y, barPos.x + width, barPos.y);
+}
+
+void timer()
+{
+  if(second() != 0 && second() % 10 == 0)
+  {
+    hpDecrement += 0.1;
+  }
 }
