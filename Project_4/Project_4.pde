@@ -16,6 +16,7 @@ final int game = 1;
 final int pause = 2;
 final int gameOver = 3;
 
+color black = 0;
 color introBG;
 color gameBG;
 color pauseBG;
@@ -25,10 +26,12 @@ color barBack;
 
 PImage cookie;
 int cookieSize;
+int cookieSizeController;
 PVector cookiePos;
 
 float hp;
 float hpDecrement;
+float hpDecrementController;
 float hpIncrement;
 float hpTracker;
 
@@ -38,7 +41,12 @@ int barHeight;
 float barOffset;
 
 float speed;
+float speedController;
 PVector direction;
+
+int missTracker;
+float timeScore;
+int difficulty;
 
 void setup()
 {
@@ -59,22 +67,25 @@ void setup()
   
   cookie = loadImage("cookie.png");
   cookieSize = 125;
+  cookieSizeController = 5;
   cookiePos = new PVector(width / 2 - cookieSize / 2, height / 2);
   
   hp = 100;
   hpDecrement = 1;
-  hpIncrement = 10;
+  hpDecrementController = 2;
+  hpIncrement = 5;
   hpTracker = hp;
   
   barWidth = width;
   barHeight = 35;
   barPos = new PVector(0, height - barHeight);
   
-  speed = 2; 
+  speed = 2;
+  speedController = 0.5;
   direction = new PVector(random(-1, 1), random(-1, 1));
-  println(direction, cookiePos);
-  //direction.setMag(5);
-  //direction.rotate(random(0, TWO_PI));
+  
+  missTracker = 0;
+  difficulty = 0;
 }
 
 void draw()

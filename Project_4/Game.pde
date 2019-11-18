@@ -3,6 +3,10 @@ void game()
   background(gameBG);
   image(cookie, cookiePos.x, cookiePos.y, cookieSize, cookieSize);
   
+  fill(black);
+  textSize(20);
+  text(frameCount, 0, 20);
+  
   move();
   
   bar();
@@ -13,7 +17,10 @@ void game()
     hp -= hpDecrement / 12;
     
     if(hp == 0 || hp < 0)
+    {
+      timeScore = frameCount / 60.0;
       mode = gameOver;
+    }
   }
   
   if(hp == 100 || hp > 100)
@@ -26,6 +33,8 @@ void gameMR()
   {
     if(dist(mouseX, mouseY, cookiePos.x + cookieSize / 2, cookiePos.y + cookieSize / 2) < cookieSize / 2)
       hp += hpIncrement;
+    else
+      missTracker++;
   }
 }
 
@@ -39,20 +48,15 @@ void move()
     cookiePos.y += speed;
   else if(direction.y > 0)
     cookiePos.y -= speed;
-
-
-
-  //cookiePos.add(direction);
-  
   
   if(cookiePos.x + cookieSize == width || cookiePos.x + cookieSize >= width)
-    direction.x = 0;
+    direction.x = -1;
   else if(cookiePos.x == 0 || cookiePos.x <= 0)
     direction.x = 1;
-  if(cookiePos.y + cookieSize == barPos.x || cookiePos.y + cookieSize >= barPos.x)
-    direction.y = 0;
-  else if(cookiePos.y == 0 || cookiePos.y <= 0)
+  if(cookiePos.y + cookieSize == barPos.y || cookiePos.y + cookieSize >= barPos.y)
     direction.y = 1;
+  else if(cookiePos.y == 0 || cookiePos.y <= 0)
+    direction.y = -1;
 }
 
 void bar()
@@ -74,8 +78,13 @@ void bar()
 
 void timer()
 {
-  if(second() != 0 && second() % 10 == 0)
+  if(frameCount > 10 && frameCount % 360 == 0)
   {
-    hpDecrement += 0.1;
+    difficulty++;
+    hpDecrement += hpDecrementController;
+    if(difficulty > 1)
+      speed += speedController;
+    if(difficulty > 2)
+      cookieSize -= cookieSizeController;
   }
 }
