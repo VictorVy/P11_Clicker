@@ -70,8 +70,9 @@ void setup()
   barHeight = 35;
   barPos = new PVector(0, height - barHeight);
   
-  speed = 2;
-  //direction = new PVector(0, 1);
+  speed = 2; 
+  direction = new PVector(random(-1, 1), random(-1, 1));
+  println(direction, cookiePos);
   //direction.setMag(5);
   //direction.rotate(random(0, TWO_PI));
 }

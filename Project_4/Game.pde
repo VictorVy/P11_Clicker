@@ -31,14 +31,14 @@ void gameMR()
 
 void move()
 {
-  //if(direction.x <= 0)
-  //  cookiePos.x -= speed;
-  //else if(direction.x > 0)
-  //  cookiePos.x += speed;
-  //if(direction.y <= 0)
-  //  cookiePos.y -= speed;
-  //else if(direction.y > 0)
-  //  cookiePos.y += speed;
+  if(direction.x <= 0)
+    cookiePos.x -= speed;
+  else if(direction.x > 0)
+    cookiePos.x += speed;
+  if(direction.y <= 0)
+    cookiePos.y += speed;
+  else if(direction.y > 0)
+    cookiePos.y -= speed;
 
 
 
@@ -47,11 +47,11 @@ void move()
   
   if(cookiePos.x + cookieSize == width || cookiePos.x + cookieSize >= width)
     direction.x = 0;
-  else if(cookiePos.x - cookieSize == 0 || cookiePos.x - cookieSize <= 0)
+  else if(cookiePos.x == 0 || cookiePos.x <= 0)
     direction.x = 1;
   if(cookiePos.y + cookieSize == barPos.x || cookiePos.y + cookieSize >= barPos.x)
     direction.y = 0;
-  else if(cookiePos.y - cookieSize == 0 || cookiePos.y - cookieSize <= 0)
+  else if(cookiePos.y == 0 || cookiePos.y <= 0)
     direction.y = 1;
 }
 
