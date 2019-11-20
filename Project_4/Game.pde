@@ -74,6 +74,14 @@ void bar()
   stroke(#5D4521);
   strokeWeight(4);
   line(barPos.x, barPos.y, barPos.x + width, barPos.y);
+  
+  stroke(#E8CD91);
+  strokeWeight(3);
+  
+  for(int k = 0; k < width / 2; k++)
+  {
+    
+  }
 }
 
 void timer()
@@ -84,7 +92,7 @@ void timer()
     hpDecrement += hpDecrementController;
     if(difficulty > 1)
       speed += speedController;
-    if(difficulty > 2)
+    if(difficulty > 2 && cookieSize < 50)
       cookieSize -= cookieSizeController;
   }
 }
