@@ -1,26 +1,22 @@
 void game()
 {
-  background(gameBG);
+  //background(gameBG);
+  image(CCBG, 0, 0, width, height);
   image(cookie, cookiePos.x, cookiePos.y, cookieSize, cookieSize);
   
-  fill(black);
   textSize(20);
-  text(frameCount, 0, 20);
   
   move();
   
   bar();
   timer();
   
-  if(frameCount % 5 == 0)
+  hp -= hpDecrement / 60;
+  
+  if(hp == 0 || hp < 0)
   {
-    hp -= hpDecrement / 12;
-    
-    if(hp == 0 || hp < 0)
-    {
-      timeScore = frameCount / 60.0;
-      mode = gameOver;
-    }
+    timeScore = frameCount / 60.0;
+    mode = gameOver;
   }
   
   if(hp == 100 || hp > 100)
@@ -71,16 +67,20 @@ void bar()
   fill(bar);
   rect(barPos.x, barPos.y, barWidth - barOffset, barHeight);
   
-  stroke(#5D4521);
+  stroke(barOutline);
   strokeWeight(4);
   line(barPos.x, barPos.y, barPos.x + width, barPos.y);
   
-  stroke(#E8CD91);
+  stroke(barLines);
   strokeWeight(3);
   
-  for(int k = 0; k < width / 2; k++)
+  for(int k = 0; k < width; k += width / 10)
   {
-    
+    line(k, height, k, height - barHeight * 0.60);
+  }
+  for(int k = 0; k < width; k += width / 40)
+  {
+    line(k, height, k, height - barHeight / 4);
   }
 }
 

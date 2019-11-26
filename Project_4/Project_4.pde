@@ -23,11 +23,16 @@ color pauseBG;
 color gameOverBG;
 color bar;
 color barBack;
+color barOutline;
+color barLines;
 
 PImage cookie;
 int cookieSize;
 int cookieSizeController;
 PVector cookiePos;
+float cookieDir;
+
+PImage CCBG;
 
 float hp;
 float hpDecrement;
@@ -50,7 +55,7 @@ int difficulty;
 
 void setup()
 {
-  size(800, 600);
+  size(800, 600, P2D);
   frameRate(60);
   
   minim = new Minim(this);
@@ -64,11 +69,15 @@ void setup()
   gameOverBG = 225;
   bar = #C99649;
   barBack = #8B6120;
+  barOutline = #5D4521;
+  barLines = #DBB582;
   
   cookie = loadImage("cookie.png");
   cookieSize = 125;
   cookieSizeController = 5;
   cookiePos = new PVector(width / 2 - cookieSize / 2, height / 2);
+  
+  CCBG = loadImage("CCBG.jpg");
   
   hp = 100;
   hpDecrement = 1;
