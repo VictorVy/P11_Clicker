@@ -1,6 +1,5 @@
 void game()
 {
-  //background(gameBG);
   image(CCBG, 0, 0, width, height);
   image(cookie, cookiePos.x, cookiePos.y, cookieSize, cookieSize);
   
@@ -28,9 +27,19 @@ void gameMR()
   if(mouseButton == LEFT)
   {
     if(dist(mouseX, mouseY, cookiePos.x + cookieSize / 2, cookiePos.y + cookieSize / 2) < cookieSize / 2)
+    {
+      bite.rewind();
+      bite.play();
+      
       hp += hpIncrement;
+    }
     else
+    {
+      biteMiss.rewind();
+      biteMiss.play();
+      
       missTracker++;
+    }
   }
 }
 

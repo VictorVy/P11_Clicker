@@ -1,7 +1,6 @@
 void intro()
 {
-  background(introBG);
-  
+  image(CCBG, 0, 0, width, height);
   image(cookie, cookiePos.x, cookiePos.y, cookieSize, cookieSize);
 }
 

@@ -6,7 +6,10 @@ import ddf.minim.spi.*;
 import ddf.minim.ugens.*;
 
 Minim minim;
+AudioPlayer biteMiss;
 AudioPlayer bite;
+
+PFont woodstock;
 
 //variables
 int mode;
@@ -17,8 +20,6 @@ final int pause = 2;
 final int gameOver = 3;
 
 color black = 0;
-color introBG;
-color gameBG;
 color pauseBG;
 color gameOverBG;
 color bar;
@@ -59,12 +60,15 @@ void setup()
   frameRate(60);
   
   minim = new Minim(this);
+  biteMiss = minim.loadFile("8-bite.wav");
+  bite = minim.loadFile("Bite.wav");
+  
+  woodstock = createFont("Woodstock.ttf", 255);
+  textFont(woodstock);
   
   //variables
   mode = intro;
   
-  introBG = 225;
-  gameBG = 225;
   pauseBG = 225;
   gameOverBG = 225;
   bar = #C99649;
