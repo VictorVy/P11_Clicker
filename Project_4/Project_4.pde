@@ -50,8 +50,13 @@ float speed;
 float speedController;
 PVector direction;
 
-int missTracker;
+float missTracker;
+float hitTracker;
+int totalClicks;
 float timeScore;
+float bestTime;
+float accuracy;
+float bestAccuracy;
 int difficulty;
 
 void setup()
@@ -98,6 +103,10 @@ void setup()
   direction = new PVector(random(-1, 1), random(-1, 1));
   
   missTracker = 0;
+  hitTracker = 0;
+  totalClicks = 0;
+  bestTime = 0;
+  bestAccuracy = 0;
   difficulty = 0;
 }
 
