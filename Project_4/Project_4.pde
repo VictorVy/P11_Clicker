@@ -59,6 +59,16 @@ float accuracy;
 float bestAccuracy;
 int difficulty;
 
+PVector retryButtonPos;
+PVector retryButtonSize;
+int retryTextSize;
+int retryTextOffset;
+
+PVector quitButtonPos;
+PVector quitButtonSize;
+int quitTextSize;
+int quitTextOffset;
+
 void setup()
 {
   size(800, 600, P2D);
@@ -108,6 +118,12 @@ void setup()
   bestTime = 0;
   bestAccuracy = 0;
   difficulty = 0;
+  
+  retryButtonPos = new PVector(width / 2, 400);
+  retryButtonSize = new PVector(170, 65);
+  
+  quitButtonPos = new PVector(width / 2, 500);
+  quitButtonSize = new PVector(170, 50);
 }
 
 void draw()
