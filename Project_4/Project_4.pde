@@ -69,6 +69,14 @@ PVector quitButtonSize;
 int quitTextSize;
 int quitTextOffset;
 
+PVector optionsButtonPos;
+PVector optionsButtonSize;
+int optionsTextSize;
+int optionsTextOffset;
+
+boolean bobUp;
+boolean bobRight;
+
 void setup()
 {
   size(800, 600, P2D);
@@ -122,12 +130,18 @@ void setup()
   retryButtonPos = new PVector(width / 2, 400);
   retryButtonSize = new PVector(170, 65);
   
-  quitButtonPos = new PVector(width / 2, 500);
+  quitButtonPos = new PVector(85, 550);
   quitButtonSize = new PVector(170, 50);
+  
+  optionsButtonPos = new PVector(width - 85, 550);
+  optionsButtonSize = new PVector(170, 65);
+  
+  bobUp = true;
+  bobRight = true;
 }
 
 void draw()
-{ 
+{
   if(mode == intro)
     intro();
   else if(mode == game)

@@ -60,6 +60,7 @@ void gameOver()
   }
   
   stroke(barOutline);
+  strokeWeight(4);
   fill(bar);
   rectMode(CENTER);
   rect(retryButtonPos.x, retryButtonPos.y, retryButtonSize.x, retryButtonSize.y);
@@ -115,6 +116,6 @@ void reset()
   retryButtonPos = new PVector(width / 2, 400);
   retryButtonSize = new PVector(170, 65);
   
-  quitButtonPos = new PVector(width / 2, 500);
+  quitButtonPos = new PVector(85, 550);
   quitButtonSize = new PVector(170, 50);
 }

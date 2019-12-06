@@ -35,6 +35,8 @@ void game()
       bestAccuracy = accuracy;
     }
     
+    quitButtonPos = new PVector(width / 2, 500);
+    
     mode = gameOver;
   }
   
@@ -46,7 +48,8 @@ void gameMR()
 {
   if(mouseButton == LEFT)
   {
-    if(dist(mouseX, mouseY, cookiePos.x + cookieSize / 2, cookiePos.y + cookieSize / 2) < cookieSize / 2)
+    if(mouseY > barPos.y) {}
+    else if(dist(mouseX, mouseY, cookiePos.x + cookieSize / 2, cookiePos.y + cookieSize / 2) < cookieSize / 2)
     {
       bite.rewind();
       bite.play();
@@ -91,6 +94,7 @@ void bar()
   barOffset = map(hp, 100, 0, 0, barWidth);
   
   noStroke();
+  rectMode(CORNER);
   
   fill(barBack);
   rect(barPos.x, barPos.y, barWidth, barHeight);
