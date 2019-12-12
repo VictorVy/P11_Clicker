@@ -57,17 +57,17 @@ void intro()
   
   if(mouseX > optionsButtonPos.x - optionsButtonSize.x / 2 && mouseX < optionsButtonPos.x + optionsButtonSize.x / 2 && mouseY > optionsButtonPos.y - optionsButtonSize.y / 2 && mouseY < optionsButtonPos.y + optionsButtonSize.y / 2)
   {
-    optionsButtonSize.x = 141;
+    optionsButtonSize.x = 238;
     optionsButtonSize.y = 71;
     optionsTextSize = 55;
     optionsTextOffset = 15;
   }
   else
   {
-    quitButtonSize.x = 130;
-    quitButtonSize.y = 65;
-    quitTextSize = 50;
-    quitTextOffset = 14;
+    optionsButtonSize.x = 218;
+    optionsButtonSize.y = 65;
+    optionsTextSize = 50;
+    optionsTextOffset = 14;
   }
   
   stroke(barOutline);
@@ -81,6 +81,7 @@ void intro()
   textAlign(CENTER);
   textSize(quitTextSize);
   text("Quit", quitButtonPos.x, quitButtonPos.y + quitTextOffset);
+  textSize(optionsTextSize);
   text("Options", optionsButtonPos.x, optionsButtonPos.y + optionsTextOffset);
 }
 
@@ -98,5 +99,12 @@ void introMR()
   if(mouseX > quitButtonPos.x - quitButtonSize.x / 2 && mouseX < quitButtonPos.x + quitButtonSize.x / 2 && mouseY > quitButtonPos.y - quitButtonSize.y / 2 && mouseY < quitButtonPos.y + quitButtonSize.y / 2)
   {
     exit();
+  }
+  
+  if(mouseX > optionsButtonPos.x - optionsButtonSize.x / 2 && mouseX < optionsButtonPos.x + optionsButtonSize.x / 2 && mouseY > optionsButtonPos.y - optionsButtonSize.y / 2 && mouseY < optionsButtonPos.y + optionsButtonSize.y / 2)
+  {
+    alphaSave = get(0, 0, width, height);
+        
+    mode = options;
   }
 }

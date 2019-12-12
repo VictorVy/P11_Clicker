@@ -89,7 +89,7 @@ void gameOverMR()
 }
 
 void reset()
-{  
+{
   cookieSize = 125;
   cookieSizeController = 5;
   cookiePos = new PVector(width / 2 - cookieSize / 2, height / 2);

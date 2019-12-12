@@ -16,7 +16,7 @@ int mode;
 
 final int intro = 0;
 final int game = 1;
-final int pause = 2;
+final int options = 2;
 final int gameOver = 3;
 
 color black = 0;
@@ -74,8 +74,26 @@ PVector optionsButtonSize;
 int optionsTextSize;
 int optionsTextOffset;
 
+PVector backButtonPos;
+PVector backButtonSize;
+int backTextSize;
+int backTextOffset;
+
 boolean bobUp;
 boolean bobRight;
+
+PImage alphaSave;
+PVector cookieTesterPos;
+boolean cookieSlideRight;
+
+float sizeSliderX;
+float speedSliderX;
+int sliderHeight;
+int sliderSize;
+boolean onSize;
+boolean onSpeed;
+boolean sizePressed;
+boolean speedPressed;
 
 void setup()
 {
@@ -131,13 +149,26 @@ void setup()
   retryButtonSize = new PVector(170, 65);
   
   quitButtonPos = new PVector(85, 550);
-  quitButtonSize = new PVector(170, 50);
+  quitButtonSize = new PVector(130, 50);
   
-  optionsButtonPos = new PVector(width - 85, 550);
+  optionsButtonPos = new PVector(width - 130, 550);
   optionsButtonSize = new PVector(170, 65);
+  
+  backButtonPos = new PVector(92, 550);
+  backButtonSize = new PVector(145, 50);
   
   bobUp = true;
   bobRight = true;
+  
+  cookieTesterPos = new PVector(width / 2 - cookieSize / 2, 75);
+  cookieSlideRight = true;
+  
+  sizeSliderX = 212.5;
+  speedSliderX = width - 212.5;
+  sliderHeight = height / 2;
+  sliderSize = 25;
+  sizePressed = false;
+  speedPressed = false;
 }
 
 void draw()
@@ -146,8 +177,8 @@ void draw()
     intro();
   else if(mode == game)
     game();
-  else if(mode == pause)
-    pause();
+  else if(mode == options)
+    options();
   else if(mode == gameOver)
     gameOver();
   else
@@ -160,8 +191,8 @@ void mouseReleased()
     introMR();
   else if(mode == game)
     gameMR();
-  else if(mode == pause)
-    pauseMR();
+  else if(mode == options)
+    optionsMR();
   else if(mode == gameOver)
     gameOverMR();
   else
