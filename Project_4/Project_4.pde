@@ -28,7 +28,8 @@ color barOutline;
 color barLines;
 
 PImage cookie;
-int cookieSize;
+boolean cookie1;
+float cookieSize;
 int cookieSizeController;
 PVector cookiePos;
 float cookieDir;
@@ -73,6 +74,7 @@ PVector optionsButtonPos;
 PVector optionsButtonSize;
 int optionsTextSize;
 int optionsTextOffset;
+int labelTextSize;
 
 PVector backButtonPos;
 PVector backButtonSize;
@@ -90,6 +92,10 @@ float sizeSliderX;
 float speedSliderX;
 int sliderHeight;
 int sliderSize;
+int sizeSliderLeft;
+int sizeSliderRight;
+int speedSliderLeft;
+int speedSliderRight;
 boolean onSize;
 boolean onSpeed;
 boolean sizePressed;
@@ -118,6 +124,7 @@ void setup()
   barLines = #DBB582;
   
   cookie = loadImage("cookie.png");
+  cookie1 = true;
   cookieSize = 125;
   cookieSizeController = 5;
   cookiePos = new PVector(width / 2 - cookieSize / 2, height / 2);
@@ -134,7 +141,6 @@ void setup()
   barHeight = 35;
   barPos = new PVector(0, height - barHeight);
   
-  speed = 2;
   speedController = 0.5;
   direction = new PVector(random(-1, 1), random(-1, 1));
   
@@ -153,6 +159,7 @@ void setup()
   
   optionsButtonPos = new PVector(width - 130, 550);
   optionsButtonSize = new PVector(170, 65);
+  labelTextSize = 30;
   
   backButtonPos = new PVector(92, 550);
   backButtonSize = new PVector(145, 50);
@@ -160,19 +167,26 @@ void setup()
   bobUp = true;
   bobRight = true;
   
-  cookieTesterPos = new PVector(width / 2 - cookieSize / 2, 75);
+  cookieTesterPos = new PVector(width / 2, 125);
   cookieSlideRight = true;
   
   sizeSliderX = 212.5;
   speedSliderX = width - 212.5;
   sliderHeight = height / 2;
   sliderSize = 25;
+  sizeSliderLeft = 75;
+  sizeSliderRight = 350;
+  speedSliderLeft = width - 350;
+  speedSliderRight = width - 75;
   sizePressed = false;
   speedPressed = false;
 }
 
 void draw()
 {
+  cookieSize = map(sizeSliderX, sizeSliderLeft, sizeSliderRight, 100, 150);
+  speed = map(speedSliderX, speedSliderLeft, speedSliderRight, 1, 3);
+  
   if(mode == intro)
     intro();
   else if(mode == game)
