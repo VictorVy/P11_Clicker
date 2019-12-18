@@ -12,9 +12,9 @@ void gameOver()
   
   fill(barBack);
   textSize(titleTextSize);
-  text("YOU CRUMBLED", titleTextPos.x - 6, titleTextPos.y - 10);
+  text("YOU CRUMBLED", titleTextPos.x + 4, titleTextPos.y - 10);
   fill(bar);
-  text("YOU CRUMBLED", titleTextPos.x, titleTextPos.y - 15);
+  text("YOU CRUMBLED", titleTextPos.x + 10, titleTextPos.y - 15);
   
   fill(black);
   textSize(25);

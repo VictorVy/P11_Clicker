@@ -202,8 +202,11 @@ void setup()
 
 void draw()
 {
-  cookieSize = map(sizeSliderX, sizeSliderLeft, sizeSliderRight, 100, 150);
-  speed = map(speedSliderX, speedSliderLeft, speedSliderRight, 1, 3);
+  if(mode != game && mode != pause)
+  {
+    cookieSize = map(sizeSliderX, sizeSliderLeft, sizeSliderRight, 100, 150);
+    speed = map(speedSliderX, speedSliderLeft, speedSliderRight, 1, 3);
+  }
   
   if(bobUp)
   {

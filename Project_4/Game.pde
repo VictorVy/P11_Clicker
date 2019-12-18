@@ -159,7 +159,7 @@ void timer()
     hpDecrement += hpDecrementController;
     if(difficulty > 1)
       speed += speedController;
-    if(difficulty > 2 && cookieSize < 50)
+    if(difficulty > 2 && cookieSize > 50)
       cookieSize -= cookieSizeController;
   }
 }
