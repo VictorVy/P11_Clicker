@@ -1,13 +1,18 @@
+import java.util.*;
 import ddf.minim.*;
-import ddf.minim.analysis.*;
-import ddf.minim.effects.*;
-import ddf.minim.signals.*;
-import ddf.minim.spi.*;
-import ddf.minim.ugens.*;
 
 Minim minim;
 AudioPlayer biteMiss;
 AudioPlayer bite;
+AudioPlayer bounce1;
+AudioPlayer bounce2;
+AudioPlayer over;
+AudioPlayer pop;
+AudioPlayer click;
+AudioPlayer charging;
+
+Random randomBool = new Random();
+boolean bool;
 
 PFont woodstock;
 
@@ -18,10 +23,9 @@ final int intro = 0;
 final int game = 1;
 final int options = 2;
 final int gameOver = 3;
+final int pause = 4;
 
 color black = 0;
-color pauseBG;
-color gameOverBG;
 color bar;
 color barBack;
 color barOutline;
@@ -64,6 +68,7 @@ PVector retryButtonPos;
 PVector retryButtonSize;
 int retryTextSize;
 int retryTextOffset;
+int firstRow;
 
 PVector quitButtonPos;
 PVector quitButtonSize;
@@ -75,6 +80,8 @@ PVector optionsButtonSize;
 int optionsTextSize;
 int optionsTextOffset;
 int labelTextSize;
+int titleTextSize;
+PVector titleTextPos;
 
 PVector backButtonPos;
 PVector backButtonSize;
@@ -90,7 +97,7 @@ boolean cookieSlideRight;
 
 float sizeSliderX;
 float speedSliderX;
-int sliderHeight;
+int sliderY;
 int sliderSize;
 int sizeSliderLeft;
 int sizeSliderRight;
@@ -101,6 +108,8 @@ boolean onSpeed;
 boolean sizePressed;
 boolean speedPressed;
 
+boolean crumbled;
+
 void setup()
 {
   size(800, 600, P2D);
@@ -109,6 +118,12 @@ void setup()
   minim = new Minim(this);
   biteMiss = minim.loadFile("8-bite.wav");
   bite = minim.loadFile("Bite.wav");
+  bounce1 = minim.loadFile("bounce1.wav");
+  bounce2 = minim.loadFile("bounce2.wav");
+  over = minim.loadFile("over.wav");
+  pop = minim.loadFile("pop.wav");
+  click = minim.loadFile("click.wav");
+  charging = minim.loadFile("rustle.wav");
   
   woodstock = createFont("Woodstock.ttf", 255);
   textFont(woodstock);
@@ -116,14 +131,12 @@ void setup()
   //variables
   mode = intro;
   
-  pauseBG = 225;
-  gameOverBG = 225;
   bar = #C99649;
   barBack = #8B6120;
   barOutline = #5D4521;
   barLines = #DBB582;
   
-  cookie = loadImage("cookie.png");
+  cookie = loadImage("cookie1.png");
   cookie1 = true;
   cookieSize = 125;
   cookieSizeController = 5;
@@ -151,8 +164,9 @@ void setup()
   bestAccuracy = 0;
   difficulty = 0;
   
-  retryButtonPos = new PVector(width / 2, 400);
+  retryButtonPos = new PVector(width / 2 + 100, 550);
   retryButtonSize = new PVector(170, 65);
+  firstRow = 175;
   
   quitButtonPos = new PVector(85, 550);
   quitButtonSize = new PVector(130, 50);
@@ -160,6 +174,8 @@ void setup()
   optionsButtonPos = new PVector(width - 130, 550);
   optionsButtonSize = new PVector(170, 65);
   labelTextSize = 30;
+  titleTextSize = 75;
+  titleTextPos = new PVector(width / 2, 115);
   
   backButtonPos = new PVector(92, 550);
   backButtonSize = new PVector(145, 50);
@@ -167,12 +183,12 @@ void setup()
   bobUp = true;
   bobRight = true;
   
-  cookieTesterPos = new PVector(width / 2, 125);
+  cookieTesterPos = new PVector(width / 2, height / 2 - 40);
   cookieSlideRight = true;
   
   sizeSliderX = 212.5;
   speedSliderX = width - 212.5;
-  sliderHeight = height / 2;
+  sliderY = height / 2 + 100;
   sliderSize = 25;
   sizeSliderLeft = 75;
   sizeSliderRight = 350;
@@ -180,12 +196,59 @@ void setup()
   speedSliderRight = width - 75;
   sizePressed = false;
   speedPressed = false;
+  
+  crumbled = false;
 }
 
 void draw()
 {
   cookieSize = map(sizeSliderX, sizeSliderLeft, sizeSliderRight, 100, 150);
   speed = map(speedSliderX, speedSliderLeft, speedSliderRight, 1, 3);
+  
+  if(bobUp)
+  {
+    if(mode != game && mode != pause)
+    {
+      cookiePos.y -= speed / 16;
+      titleTextPos.y -= speed / 16;
+    }
+    
+    if(cookiePos.y < height / 2 - 4)
+      bobUp = false;
+  }
+  else
+  {
+    if(mode != game && mode != pause)
+    {
+      cookiePos.y += speed / 16;
+      titleTextPos.y += speed / 16;
+    }
+    
+    if(cookiePos.y > height / 2 + 4)
+      bobUp = true;
+  }
+  if(bobRight)
+  {
+    if(mode != game && mode != pause)
+    {
+      cookiePos.x += speed / 16;
+      titleTextPos.x += speed / 16;
+    }
+    
+    if(cookiePos.x > (width / 2 - cookieSize / 2) + 3)
+      bobRight = false;
+  }
+  else
+  {
+    if(mode != game && mode != pause)
+    {
+      cookiePos.x -= speed / 16;
+      titleTextPos.x -= speed / 16;
+    }
+    
+    if(cookiePos.x < (width / 2 - cookieSize / 2) - 3)
+      bobRight = true;
+  }
   
   if(mode == intro)
     intro();
@@ -195,6 +258,8 @@ void draw()
     options();
   else if(mode == gameOver)
     gameOver();
+  else if(mode == pause)
+    pause();
   else
     println("Mode Error (Mode = " + mode + ")");
 }
@@ -209,6 +274,14 @@ void mouseReleased()
     optionsMR();
   else if(mode == gameOver)
     gameOverMR();
+  else if(mode == pause)
+    pauseMR();
   else
     println("MR Error (Mode = " + mode + ")");
+}
+
+boolean randomBool()
+{
+  bool = randomBool.nextBoolean();
+  return bool;
 }

@@ -2,7 +2,7 @@ void options()
 {
   image(alphaSave, 0, 0);
   noStroke();
-  fill(255, 89);
+  fill(225, 96);
   rect(width / 2, height / 2, width, height);
   
   if(mouseX > backButtonPos.x - backButtonSize.x / 2 && mouseX < backButtonPos.x + backButtonSize.x / 2 && mouseY > backButtonPos.y - backButtonSize.y / 2 && mouseY < backButtonPos.y + backButtonSize.y / 2)
@@ -32,8 +32,13 @@ void options()
   text("Back", backButtonPos.x, backButtonPos.y + backTextOffset);
   
   textSize(labelTextSize);
-  text("Size", sizeSliderLeft + ((sizeSliderRight - sizeSliderLeft) / 2), height / 2 + 45);
-  text("Speed", speedSliderLeft + ((speedSliderRight - speedSliderLeft) / 2), height / 2 + 45);
+  text("Size", sizeSliderLeft + ((sizeSliderRight - sizeSliderLeft) / 2), sliderY + 45);
+  text("Speed", speedSliderLeft + ((speedSliderRight - speedSliderLeft) / 2), sliderY + 45);
+  
+  textSize(titleTextSize);
+  text("OPTIONS", titleTextPos.x - 6, titleTextPos.y + 5);
+  fill(bar);
+  text("OPTIONS", titleTextPos.x, titleTextPos.y);
   
   sliders();
   
@@ -65,23 +70,34 @@ void options()
 
 void optionsMR()
 {
-  if(dist(mouseX, mouseY, cookieTesterPos.x, cookieTesterPos.y) < cookieSize / 2)
-  {
-    changeCostume();
+  if(mouseButton == LEFT)
+  {    
+    charging.pause();
+    
+    if(dist(mouseX, mouseY, cookieTesterPos.x, cookieTesterPos.y) < cookieSize / 2)
+    {
+      pop.rewind();
+      pop.play();
+      
+      changeCostume();
+    }
+    
+    if(mouseX > backButtonPos.x - backButtonSize.x / 2 && mouseX < backButtonPos.x + backButtonSize.x / 2 && mouseY > backButtonPos.y - backButtonSize.y / 2 && mouseY < backButtonPos.y + backButtonSize.y / 2)
+    {
+      click.rewind();
+      click.play();
+      
+      mode = intro;
+    }
+    
+    sizePressed = false;
+    speedPressed = false;
   }
-  
-  if(mouseX > backButtonPos.x - backButtonSize.x / 2 && mouseX < backButtonPos.x + backButtonSize.x / 2 && mouseY > backButtonPos.y - backButtonSize.y / 2 && mouseY < backButtonPos.y + backButtonSize.y / 2)
-  {
-    mode = intro;
-  }
-  
-  sizePressed = false;
-  speedPressed = false;
 }
 
 void sliders()
 {
-  if(dist(mouseX, mouseY, sizeSliderX, sliderHeight) < sliderSize / 2)
+  if(dist(mouseX, mouseY, sizeSliderX, sliderY) < sliderSize / 2)
   {
     onSize = true;
     
@@ -90,7 +106,7 @@ void sliders()
   }
   else
     onSize = false;
-  if(dist(mouseX, mouseY, speedSliderX, sliderHeight) < sliderSize / 2)
+  if(dist(mouseX, mouseY, speedSliderX, sliderY) < sliderSize / 2)
   {
     onSpeed = true;
     
@@ -102,6 +118,9 @@ void sliders()
   
   if(sizePressed)
   {
+    charging.rewind();
+    charging.play();
+    
     sizeSliderX = mouseX;
     
     if(sizeSliderX < sizeSliderLeft)
@@ -111,6 +130,9 @@ void sliders()
   }
   if(speedPressed)
   {
+    charging.rewind();
+    charging.play();
+    
     speedSliderX = mouseX;
     
     if(speedSliderX < speedSliderLeft)
@@ -121,23 +143,28 @@ void sliders()
   
   stroke(barOutline);
   strokeWeight(5);
-  line(sizeSliderLeft, sliderHeight, sizeSliderRight, sliderHeight);
-  line(speedSliderLeft, sliderHeight, speedSliderRight, height / 2);
+  line(sizeSliderLeft, sliderY, sizeSliderRight, sliderY);
+  line(speedSliderLeft, sliderY, speedSliderRight, sliderY);
   
   noStroke();
   if(onSize || sizePressed)
     fill(barBack);
   else
     fill(bar);
-  ellipse(sizeSliderX, sliderHeight, sliderSize, sliderSize);
+  ellipse(sizeSliderX, sliderY, sliderSize, sliderSize);
   if(onSpeed || speedPressed)
     fill(barBack);
   else
     fill(bar);
-  ellipse(speedSliderX, sliderHeight, sliderSize, sliderSize);
+  ellipse(speedSliderX, sliderY, sliderSize, sliderSize);
 }
 
 void changeCostume()
 {
   cookie1 = !cookie1;
+  
+  if(cookie1)
+    cookie = loadImage("cookie1.png");
+  else
+    cookie = loadImage("cookie2.png");
 }

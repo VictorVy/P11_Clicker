@@ -1,33 +1,47 @@
 void gameOver()
 {
-  background(gameOverBG);
+  image(CCBG, 0, 0, width, height);
+  
+  if(!crumbled)
+  {
+    over.rewind();
+    over.play();
+    
+    crumbled = true;
+  }
+  
+  fill(barBack);
+  textSize(titleTextSize);
+  text("YOU CRUMBLED", titleTextPos.x - 6, titleTextPos.y - 10);
+  fill(bar);
+  text("YOU CRUMBLED", titleTextPos.x, titleTextPos.y - 15);
   
   fill(black);
   textSize(25);
   
   textAlign(RIGHT);
   
-  text("Time: ", width / 2, 60);
-  text("Accuracy: ",  width / 2, 90);
+  text("Time: ", width / 2, firstRow);
+  text("Accuracy: ",  width / 2, firstRow + 30);
   
-  text("Clicks: ", width / 2, 150);
-  text("Number of hits: ", width / 2, 180);
-  text("Number of misses: ", width / 2, 210);
+  text("Clicks: ", width / 2, firstRow + 90);
+  text("Hits: ", width / 2, firstRow + 120);
+  text("Misses: ", width / 2, firstRow + 150);
   
-  text("Best time: ", width / 2, 270);
-  text("Best accuracy: ", width / 2, 300);
+  text("Best time: ", width / 2, firstRow + 210);
+  text("Best accuracy: ", width / 2, firstRow + 240);
   
   textAlign(LEFT);
   
-  text(timeScore + " seconds", width / 2 + 5, 60);
-  text(accuracy + "%", width / 2 + 5, 90);
+  text(timeScore + " seconds", width / 2 + 5, firstRow);
+  text(accuracy + "%", width / 2 + 5, firstRow + 30);
   
-  text(totalClicks, width / 2 + 5, 150);
-  text((int)hitTracker, width / 2 + 5, 180);
-  text((int)missTracker, width / 2 + 5, 210);
+  text(totalClicks, width / 2 + 5, firstRow + 90);
+  text((int)hitTracker, width / 2 + 5, firstRow + 120);
+  text((int)missTracker, width / 2 + 5, firstRow + 150);
   
-  text(bestTime + " seconds", width / 2 + 5, 270);
-  text(bestAccuracy + "%", width / 2 + 5, 300);
+  text(bestTime + " seconds", width / 2 + 5, firstRow + 210);
+  text(bestAccuracy + "%", width / 2 + 5, firstRow + 240);
   
   if(mouseX > retryButtonPos.x - retryButtonSize.x / 2 && mouseX < retryButtonPos.x + retryButtonSize.x / 2 && mouseY > retryButtonPos.y - retryButtonSize.y / 2 && mouseY < retryButtonPos.y + retryButtonSize.y / 2)
   {
@@ -63,28 +77,37 @@ void gameOver()
   strokeWeight(4);
   fill(bar);
   rectMode(CENTER);
-  rect(retryButtonPos.x, retryButtonPos.y, retryButtonSize.x, retryButtonSize.y);
-  rect(quitButtonPos.x, quitButtonPos.y, quitButtonSize.x, quitButtonSize.y);
+  rect(retryButtonPos.x + 7, retryButtonPos.y, retryButtonSize.x, retryButtonSize.y);
+  rect(quitButtonPos.x + 7, quitButtonPos.y, quitButtonSize.x, quitButtonSize.y);
   
   fill(barBack);
   textAlign(CENTER);
   textSize(retryTextSize);
-  text("Retry", retryButtonPos.x, retryButtonPos.y + retryTextOffset);
+  text("Retry", retryButtonPos.x + 7, retryButtonPos.y + retryTextOffset);
   textSize(quitTextSize);
-  text("Quit", quitButtonPos.x, quitButtonPos.y + quitTextOffset);
+  text("Quit", quitButtonPos.x + 7, quitButtonPos.y + quitTextOffset);
   }
 
 void gameOverMR()
 {
-  if(mouseX > retryButtonPos.x - retryButtonSize.x / 2 && mouseX < retryButtonPos.x + retryButtonSize.x / 2 && mouseY > retryButtonPos.y - retryButtonSize.y / 2 && mouseY < retryButtonPos.y + retryButtonSize.y / 2)
+  if(mouseButton == LEFT)
   {
-    reset();    
-    mode = intro;
-  }
-  
-  if(mouseX > quitButtonPos.x - quitButtonSize.x / 2 && mouseX < quitButtonPos.x + quitButtonSize.x / 2 && mouseY > quitButtonPos.y - quitButtonSize.y / 2 && mouseY < quitButtonPos.y + quitButtonSize.y / 2)
-  {
-    exit();
+    if(mouseX > retryButtonPos.x - retryButtonSize.x / 2 && mouseX < retryButtonPos.x + retryButtonSize.x / 2 && mouseY > retryButtonPos.y - retryButtonSize.y / 2 && mouseY < retryButtonPos.y + retryButtonSize.y / 2)
+    {
+      click.rewind();
+      click.play();
+      
+      reset();
+      mode = intro;
+    }
+    
+    if(mouseX > quitButtonPos.x - quitButtonSize.x / 2 && mouseX < quitButtonPos.x + quitButtonSize.x / 2 && mouseY > quitButtonPos.y - quitButtonSize.y / 2 && mouseY < quitButtonPos.y + quitButtonSize.y / 2)
+    {
+      click.rewind();
+      click.play();
+      
+      exit();
+    }
   }
 }
 
@@ -104,7 +127,6 @@ void reset()
   barHeight = 35;
   barPos = new PVector(0, height - barHeight);
   
-  speed = 2;
   speedController = 0.5;
   direction = new PVector(random(-1, 1), random(-1, 1));
   
@@ -113,9 +135,19 @@ void reset()
   totalClicks = 0;
   difficulty = 0;
   
-  retryButtonPos = new PVector(width / 2, 400);
+  retryButtonPos = new PVector(width / 2 + 100, 550);
   retryButtonSize = new PVector(170, 65);
+  firstRow = 175;
   
-  quitButtonPos = new PVector(85, 550);
-  quitButtonSize = new PVector(170, 50);
+  quitButtonPos.x = 85;
+  
+  titleTextPos = new PVector(width / 2, 115);
+  
+  bobUp = true;
+  bobRight = true;
+  
+  cookieTesterPos = new PVector(width / 2, height / 2 - 40);
+  cookieSlideRight = true;
+  
+  crumbled = false;
 }

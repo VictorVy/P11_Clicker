@@ -21,6 +21,8 @@ void game()
   
   if(hp == 0 || hp < 0)
   {
+    cookiePos = new PVector(width / 2 - cookieSize / 2, height / 2);
+    
     timeScore = frameCount / 60.0;
     
     if(timeScore > bestTime)
@@ -28,14 +30,17 @@ void game()
       bestTime = timeScore;
     }
     
-    accuracy = (hitTracker / totalClicks) * 100;
+    if(totalClicks != 0)
+      accuracy = (hitTracker / totalClicks) * 100;
+    else
+      accuracy = 0;
     
     if(accuracy > bestAccuracy)
     {
       bestAccuracy = accuracy;
     }
     
-    quitButtonPos = new PVector(width / 2, 500);
+    quitButtonPos.x = width / 2 - 100;
     
     mode = gameOver;
   }
@@ -66,6 +71,21 @@ void gameMR()
       missTracker++;
     }
   }
+  else if(mouseButton == RIGHT)
+  {
+    timeScore = frameCount / 60.0;
+    
+    if(totalClicks != 0)
+      accuracy = (hitTracker / totalClicks) * 100;
+    else
+      accuracy = 0;
+    
+    quitButtonPos.x = width - 85;
+    
+    alphaSave = get(0, 0, width, height);
+    
+    mode = pause;
+  }
 }
 
 void move()
@@ -80,13 +100,25 @@ void move()
     cookiePos.y -= speed;
   
   if(cookiePos.x + cookieSize == width || cookiePos.x + cookieSize >= width)
+  {
     direction.x = -1;
+    bounceSound();
+  }
   else if(cookiePos.x == 0 || cookiePos.x <= 0)
+  {
     direction.x = 1;
+    bounceSound();
+  }
   if(cookiePos.y + cookieSize == barPos.y || cookiePos.y + cookieSize >= barPos.y)
+  {
     direction.y = 1;
+    bounceSound();
+  }
   else if(cookiePos.y == 0 || cookiePos.y <= 0)
+  {
     direction.y = -1;
+    bounceSound();
+  }
 }
 
 void bar()
@@ -130,4 +162,18 @@ void timer()
     if(difficulty > 2 && cookieSize < 50)
       cookieSize -= cookieSizeController;
   }
+}
+
+void bounceSound()
+{
+  if(randomBool())
+    {
+      bounce1.rewind();
+      bounce1.play();
+    }
+    else
+    {
+      bounce2.rewind();
+      bounce2.play();
+    }
 }
